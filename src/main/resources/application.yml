@@ -2,6 +2,20 @@ spring:
   application:
     name: Tema2 SCD
 
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;encrypt=false;trustServerCertificate=true
+    username: sa
+    password: SCD_Tema2_2024!
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServer2012Dialect
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
 server:
   port: 8080
 

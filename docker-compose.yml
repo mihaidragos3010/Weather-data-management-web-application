@@ -1,0 +1,19 @@
+#version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: scd_tema2_database
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "SCD_Tema2_2024!"
+      MSSQL_PID: "Developer"
+    volumes:
+      - tema2SCD_database_volume:/var/opt/mssql
+#      - ./src/main/resources/static/create-database.sql:/tmp/create-database.sql
+#    restart: always
+
+volumes:
+  tema2SCD_database_volume:

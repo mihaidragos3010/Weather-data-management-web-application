@@ -1,0 +1,1 @@
+CREATE DATABASE Weather_Application_Database;
