@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: Tema2 SCD
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
