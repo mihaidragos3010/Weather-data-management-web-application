@@ -1,0 +1,75 @@
+package com.proiect.scd.tema2.controllers;
+
+import com.proiect.scd.tema2.dto.CountryDto;
+import com.proiect.scd.tema2.entities.Country;
+import com.proiect.scd.tema2.services.CountryService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("api")
+@RequiredArgsConstructor
+public class CountriesController {
+
+    private final CountryService countryService;
+
+    @PostMapping("countries")
+    public ResponseEntity<Map<String, Integer>> addCountry(@RequestBody CountryDto countryDto){
+
+        Integer idCountry = countryService.addCountry(countryDto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(Map.of("id", idCountry));
+    }
+
+    @GetMapping("countries")
+    public ResponseEntity<List<Country>> getAllCountries(){
+
+        List<Country> countries = countryService.getAllCountries();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(countries);
+    }
+
+    @PutMapping("countries/{id}")
+    public ResponseEntity<Country> updateCountry(@PathVariable Integer id, @RequestBody Country updatedCountry) {
+
+        Optional<Country> country = countryService.getCountryById(id);
+
+        if(country.isPresent()){
+            countryService.updateCountry(updatedCountry);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .build();
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .build();
+    }
+
+    @DeleteMapping("countries/{id}")
+    public ResponseEntity<Country> deleteCountry(@PathVariable Integer id) {
+
+        Optional<Country> country = countryService.getCountryById(id);
+
+        if(country.isPresent()){
+            countryService.deleteCountry(country.get());
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .build();
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .build();
+    }
+}
