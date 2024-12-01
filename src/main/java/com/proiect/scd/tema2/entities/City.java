@@ -1,5 +1,6 @@
 package com.proiect.scd.tema2.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class City {
     private Integer id;
 
     @JsonProperty("idTara")
-    @Column(name = "id_tara")
+    @Column(name = "id_tara", insertable = false, updatable = false)
     private Integer idCountry;
 
     @JsonProperty("nume")
@@ -32,4 +33,9 @@ public class City {
     @JsonProperty("lon")
     @Column(name = "longitudine")
     private Double longitude;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "id_tara", nullable = false)
+    private Country country;
 }

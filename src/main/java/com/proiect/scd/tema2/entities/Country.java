@@ -1,9 +1,12 @@
 package com.proiect.scd.tema2.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,4 +32,7 @@ public class Country {
     @Column(name = "longitudine")
     private Double longitude;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<City> cities;
 }
