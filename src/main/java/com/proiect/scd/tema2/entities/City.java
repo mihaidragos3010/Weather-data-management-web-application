@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
-@Table(name = "Tari")
-public class Country {
+@Entity
+@Table(name = "Orase", uniqueConstraints = @UniqueConstraint(columnNames = {"id_tara", "nume_oras"}))
+public class City {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +17,12 @@ public class Country {
     @Column(name = "id")
     private Integer id;
 
+    @JsonProperty("idTara")
+    @Column(name = "id_tara")
+    private Integer idCountry;
+
     @JsonProperty("nume")
-    @Column(name = "nume_tara", unique = true)
+    @Column(name = "nume_oras")
     private String name;
 
     @JsonProperty("lat")
@@ -28,5 +32,4 @@ public class Country {
     @JsonProperty("lon")
     @Column(name = "longitudine")
     private Double longitude;
-
 }

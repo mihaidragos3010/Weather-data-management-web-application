@@ -40,9 +40,16 @@ public class CountriesController {
     }
 
     @PutMapping("countries/{id}")
-    public ResponseEntity<Country> updateCountry(@PathVariable Integer id, @RequestBody Country updatedCountry) {
+    public ResponseEntity<?> updateCountry(@PathVariable Integer id, @RequestBody Country updatedCountry) {
 
         Optional<Country> country = countryService.getCountryById(id);
+
+        /* Check updated country data has same id as PathVariable id */
+        if(!updatedCountry.getId().equals(id)){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
 
         if(country.isPresent()){
             countryService.updateCountry(updatedCountry);
@@ -57,7 +64,7 @@ public class CountriesController {
     }
 
     @DeleteMapping("countries/{id}")
-    public ResponseEntity<Country> deleteCountry(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteCountry(@PathVariable Integer id) {
 
         Optional<Country> country = countryService.getCountryById(id);
 
