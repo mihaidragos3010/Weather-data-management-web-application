@@ -5,11 +5,13 @@ import com.proiect.scd.tema2.entities.City;
 import com.proiect.scd.tema2.entities.Country;
 import com.proiect.scd.tema2.services.CityService;
 import com.proiect.scd.tema2.services.CountryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +26,12 @@ public class CitiesController {
 
     @PostMapping("cities")
     public ResponseEntity<Map<String, Integer>> addCity(@RequestBody CityDto cityDto){
+
+        if(cityDto.getIdCountry() == null){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
 
         Optional<Country> country = countryService.getCountryById(cityDto.getIdCountry());
 
@@ -49,6 +57,13 @@ public class CitiesController {
                 .body(cities);
     }
 
+    @GetMapping("cities/country/")
+    public ResponseEntity<List<City>> getCitiesWithoutCountry() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Collections.emptyList());
+    }
+
     @GetMapping("cities/country/{idCountry}")
     public ResponseEntity<List<City>> getCitiesByCountry(@PathVariable Integer idCountry) {
         List<City> cities = cityService.getCitiesByIdCountry(idCountry);
@@ -58,17 +73,17 @@ public class CitiesController {
     }
 
     @PutMapping("cities/{id}")
-    public ResponseEntity<?> updateCity(@PathVariable Integer id, @RequestBody City updatedCity) {
-
-        Optional<City> city = cityService.getCityById(id);
-        Optional<Country> country = countryService.getCountryById(updatedCity.getIdCountry());
+    public ResponseEntity<?> updateCity(@PathVariable Integer id,@Valid @RequestBody City updatedCity) {
 
         /* Check updated city data has same id as PathVariable id */
-        if(!updatedCity.getId().equals(id)){
+        if(updatedCity.getId() == null|| !updatedCity.getId().equals(id)){
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .build();
         }
+
+        Optional<City> city = cityService.getCityById(id);
+        Optional<Country> country = countryService.getCountryById(updatedCity.getIdCountry());
 
         /* Check that city & country are found in database */
         if(city.isPresent() && country.isPresent()){

@@ -3,6 +3,7 @@ package com.proiect.scd.tema2.controllers;
 import com.proiect.scd.tema2.dto.CountryDto;
 import com.proiect.scd.tema2.entities.Country;
 import com.proiect.scd.tema2.services.CountryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,12 +41,12 @@ public class CountriesController {
     }
 
     @PutMapping("countries/{id}")
-    public ResponseEntity<?> updateCountry(@PathVariable Integer id, @RequestBody Country updatedCountry) {
+    public ResponseEntity<?> updateCountry(@PathVariable Integer id, @Valid @RequestBody Country updatedCountry) {
 
         Optional<Country> country = countryService.getCountryById(id);
 
         /* Check updated country data has same id as PathVariable id */
-        if(!updatedCountry.getId().equals(id)){
+        if(updatedCountry.getId() == null || !updatedCountry.getId().equals(id)){
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .build();

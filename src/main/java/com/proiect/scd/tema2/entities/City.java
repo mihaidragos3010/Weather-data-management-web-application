@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,6 +17,7 @@ public class City {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NonNull
     @JsonProperty("id")
     @Column(name = "id")
     private Integer id;
@@ -38,4 +42,8 @@ public class City {
     @ManyToOne
     @JoinColumn(name = "id_tara", nullable = false)
     private Country country;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Temperature> temperatures;
 }

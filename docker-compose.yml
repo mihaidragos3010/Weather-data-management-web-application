@@ -12,8 +12,6 @@ services:
       MSSQL_PID: "Developer"
     volumes:
       - tema2SCD_database_volume:/var/opt/mssql
-#      - ./src/main/resources/static/create-database.sql:/tmp/create-database.sql
-#    restart: always
 
 volumes:
   tema2SCD_database_volume:
