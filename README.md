@@ -1,41 +1,45 @@
-
 Student: Mihai Dragos-Andrei
-Grupa: 342C5
+Group: 342C5
 
-# Tema 2 SCD
+# Theme 2 SCD
 
-# Introducere
 
-In realizarea temei am folosit ca si tehnologie de backend un server de Spring Boot. Pe partea de 
-baze de date am ales MS SQL (Microsoft Server SQL). 
+# Introduction
 
-### Inplementare Server
-In cadrul proiectului am implementat un server de backend, utilizand tehologiile oferite de Spring Boot. Artitectura aplicatiei este
-realizata peste arhitectura MVC. Sunt Definite clase de tip @Controller care au rolul de a defini endpoint-urile aplicatiei. Pentru 
-procesare am folosit clasele de tip @Service. Comunicarea cu baza de date se realizeaza de clasele @Repository. Structurile de tip "*Dto"
-au rolul de a defini structurile externe, cele care se folosesc in comunicarea cu clientul. Din cauza constrangerilor temei, am ales 
-sa returnez, dupa caz, obiecte de tip @Entity. Am folosit un handler global pentru prinderea exceptiilor pentru intregul server, si pentru
-intoarcerea catre client a unor raspunsuri valide si usor de inteles.
+For this project, I used Spring Boot as the backend technology. For the database, I chose MS SQL (Microsoft SQL Server).
 
-### Implementare Database
-In cadrul bazei de date am folosit tehnologiile oferite de MS SQL. Tabelele bazei de date sunt contruide de server Spring la prima
-conectare. Clasele @Entity au rolul de a defini structura tabelelor, constrangerile si relatiile dintre ele. Parola pentru user-ul
-"sa" a fost definita la initializarea containerului de Docker.
 
-### Definire Containere de Docker
-In contructia aplicatiei am folosit un fisier de tip docker-compose. El are rolul de a initializa o baza de date, folosind o imagine 
-predefinita din DockerHub. Persistenta datelor este garantata de definirea unui volum, gestionat de agentul de docker.
-Pentru initializarea server de Spring am folosit un fisier Dokerfile, la baza are o imagine de maven cu java 17 la care am 
-adaugat codul sursa ar server si pom.xml, folosit pentru a defini dependintele utilizate. Ambele containere au fost introduse intr-un
-network, cu numele de "global".
-# Executie
+### **Server Implementation**
 
-Pentru a initializa containerele de server si database
-    
+---
+In this project, I implemented a backend server using Spring Boot technologies. The application architecture is based on the MVC pattern.  
+I defined @Controller classes to manage the application's endpoints. For processing, I used @Service classes. Communication with the database is handled by @Repository classes.
+The "*Dto" structures are used to define external structures, the ones used in communication with the client. Due to project constraints, I chose to return @Entity objects in some cases.
+I implemented a global exception handler to catch exceptions throughout the server and return valid, user-friendly responses to the client.
+
+### **Database Implementation**
+
+---
+For the database, I used MS SQL technologies. The database tables are created by the Spring server upon the first connection. The @Entity classes define the structure of the tables, constraints, and relationships between them. The password for the "sa" user was set during Docker container initialization.
+
+
+
+### **Docker Container Definition**
+
+---
+For this project, I used a docker-compose file to define the containers. It initializes a database using a pre-built image from DockerHub. Data persistence is ensured by defining a volume managed by the Docker agent.
+
+To initialize the Spring server, I used a Dockerfile based on a Maven image with Java 17, to which I added the server source code and the `pom.xml` file for dependency management.
+
+Both containers were added to a network named "global."
+
+
+# Execution
+
+To initialize the server and database containers:
+
     docker-compose up
 
-Pentru a opri containerele, sterge volumes si sterge reteaua folosita
-
-    docker-compose down --volumes
-
+To delete containers 
     
+    docker-compose down --volumes
