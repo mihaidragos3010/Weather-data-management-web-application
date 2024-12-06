@@ -1,4 +1,4 @@
-package com.proiect.scd.tema2;
+package com.proiect.scd.tema2.filters;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
