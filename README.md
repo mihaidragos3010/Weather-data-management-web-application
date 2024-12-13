@@ -9,60 +9,22 @@ Group: 342C5
 
 # Introduction
 
-
-The technologies used for the development of the project were Spring Boot (Java) for the server 
-and MS SQL (Microsoft Server SQL) for the database.
-
-## **Server Implementation**
-
-#### The server is built on an MVC architecture supported by a larger set of specific classes:
-* **@Controller:** Its role is to expose a series of endpoints to the final client.
+For this project, I used Spring Boot as the backend technology. For the database, I chose MS SQL (Microsoft SQL Server).
 
 
-* **@Server:** Its role is to define the server's logic.
+### **Server Implementation**
 
-
-* **@Repository:** Its role is to expose a series of requests to the database being used. By default, JPA assists with 
-several basic functions that have been inherited by all repositories in the application.
-
-
-* **Dto:** These are structures designed to define the objects used in direct communication with the final client. 
-They set attributes and basic conditions, which are validated on each request if the @Valid annotation is used.
-
-
-* **@Entity:** Its role is to define the structure of the tables in the database. Each attribute of the class serves 
-to define a column in the database. It also sets constraints that will be reflected in the database. Additionally, 
-it defines the relationships between the database objects.
-
-
-* **@Mapper:** Its role is to convert a Dto object to an @Entity and vice versa. It is called within components of 
-type @Service. It is implemented to convert only the attributes with the same name, while the rest, which are specific
-to an object, are ignored.
-
-
-* **@ControllerAdvice / Handlers:** Its role is to capture exceptions at the server level and to implement a default 
-function triggered when such an exception is thrown.
-
+---
+In this project, I implemented a backend server using Spring Boot technologies. The application architecture is based on the MVC pattern.  
+I defined @Controller classes to manage the application's endpoints. For processing, I used @Service classes. Communication with the database is handled by @Repository classes.
+The "*Dto" structures are used to define external structures, the ones used in communication with the client. Due to project constraints, I chose to return @Entity objects in some cases.
+I implemented a global exception handler to catch exceptions throughout the server and return valid, user-friendly responses to the client.
 
 ## **Database Implementation**
 
 ---
-#### The database tables are created by the @Entity after establishing the connection.
+For the database, I used MS SQL technologies. The database tables are created by the Spring server upon the first connection. The @Entity classes define the structure of the tables, constraints, and relationships between them. The password for the "sa" user was set during Docker container initialization.
 
-* Tari
-
-
-![img.png](src/main/resources/static/tari.png)
-
-* Orase
-
-
-![img.png](src/main/resources/static/orase.png)
-
-* Temperaturi
-
-
-![img.png](src/main/resources/static/temperaturi.png)
 
   
 ### **Docker Container Definition**
