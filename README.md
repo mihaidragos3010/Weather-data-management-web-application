@@ -2,7 +2,6 @@ Student: Mihai Dragos-Andrei
 
 Group: 342C5
 
-
 # Theme 2 SCD
 
 ---
