@@ -23,13 +23,7 @@ public class TemperaturesController {
     private final TemperatureService temperatureService;
 
     @PostMapping("temperatures")
-    public ResponseEntity<Map<String, Integer>> addTemperature(@RequestBody TemperatureDto temperatureDto){
-
-        if(temperatureDto.getIdCity() == null){
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
-        }
+    public ResponseEntity<?> addTemperature(@Valid @RequestBody TemperatureDto temperatureDto){
 
         Optional<City> city = cityService.getCityById(temperatureDto.getIdCity());
 
@@ -46,13 +40,13 @@ public class TemperaturesController {
     }
 
     @GetMapping("temperatures")
-    public ResponseEntity<List<Temperature>> getTemperaturesByLatitudeAndLongitude(
+    public ResponseEntity<?> getTemperaturesByLatitudeAndLongitude(
             @RequestParam(required = false) Optional<Double> lat,
             @RequestParam(required = false) Optional<Double> lon,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> from,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> until) {
 
-        List<Temperature> response = temperatureService.getTemperatures(lat, lon, from, until);
+        List<TemperatureDto> response = temperatureService.getTemperatures(lat, lon, from, until);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -69,12 +63,12 @@ public class TemperaturesController {
     }
 
     @GetMapping("temperatures/cities/{idCity}")
-    public ResponseEntity<List<Temperature>> getTemperaturesByCity(
+    public ResponseEntity<?> getTemperaturesByCity(
             @PathVariable Integer idCity,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> from,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> until) {
 
-        List<Temperature> response = temperatureService.getTemperaturesByCity(idCity, from, until);
+        List<TemperatureDto> response = temperatureService.getTemperaturesByCity(idCity, from, until);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -92,12 +86,12 @@ public class TemperaturesController {
 
 
     @GetMapping("temperatures/countries/{idCountry}")
-    public ResponseEntity<List<Temperature>> getTemperaturesByCountry(
+    public ResponseEntity<?> getTemperaturesByCountry(
             @PathVariable Integer idCountry,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> from,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> until) {
 
-        List<Temperature> response = temperatureService.getTemperaturesByCountry(idCountry, from, until);
+        List<TemperatureDto> response = temperatureService.getTemperaturesByCountry(idCountry, from, until);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -105,21 +99,21 @@ public class TemperaturesController {
     }
 
     @PutMapping("temperatures/{id}")
-    public ResponseEntity<?> updateTemperature(@PathVariable Integer id, @RequestBody Temperature updatedTemperature) {
+    public ResponseEntity<?> updateTemperature(@PathVariable Integer id, @Valid @RequestBody TemperatureDto updatedTemperatureDto) {
 
         /* Check updated city data has same id as PathVariable id */
-        if(updatedTemperature.getId() == null || !updatedTemperature.getId().equals(id)){
+        if(updatedTemperatureDto.getId() == null || !updatedTemperatureDto.getId().equals(id)){
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .build();
         }
 
         Optional<Temperature> temperature = temperatureService.getTemperatureById(id);
-        Optional<City> city = cityService.getCityById(updatedTemperature.getIdCity());
+        Optional<City> city = cityService.getCityById(updatedTemperatureDto.getIdCity());
 
         /* Check that city & country are found in database */
         if(temperature.isPresent() && city.isPresent()){
-            temperatureService.updateTemperature(updatedTemperature);
+            temperatureService.updateTemperature(updatedTemperatureDto);
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .build();
@@ -131,7 +125,7 @@ public class TemperaturesController {
     }
 
     @DeleteMapping("temperatures/{id}")
-    public ResponseEntity<?> deleteTemperature(@Valid @PathVariable Integer id) {
+    public ResponseEntity<?> deleteTemperature(@PathVariable Integer id) {
 
         Optional<Temperature> temperature = temperatureService.getTemperatureById(id);
 

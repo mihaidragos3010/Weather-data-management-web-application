@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,12 +30,15 @@ public class CountryService {
         return countryRepository.findById(id);
     }
 
-    public List<Country> getAllCountries(){
-        return countryRepository.findAll();
+    public List<CountryDto> getAllCountries(){
+        return countryRepository.findAll().stream()
+                .map(countriesMapper::countryToCountryDto)
+                .collect(Collectors.toList());
     }
 
-    public void updateCountry(Country updatedCountry){
-        countryRepository.save(updatedCountry);
+    public void updateCountry(CountryDto updatedCountry){
+        Country country = countriesMapper.countryDtoToCountry(updatedCountry);
+        countryRepository.save(country);
     }
 
     public void deleteCountry(Country country){

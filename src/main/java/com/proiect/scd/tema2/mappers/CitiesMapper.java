@@ -16,16 +16,16 @@ public abstract class CitiesMapper {
     @Autowired
     protected CountryRepository countryRepository;
 
-    @Mapping(source = "idCountry", target = "idCountry")
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "latitude", target = "latitude")
-    @Mapping(source = "longitude", target = "longitude")
+//    @Mapping(source = "idCountry", target = "idCountry")
+//    @Mapping(source = "name", target = "name")
+//    @Mapping(source = "latitude", target = "latitude")
+//    @Mapping(source = "longitude", target = "longitude")
     public abstract City cityDtoToCity(CityDto cityDto);
 
-    @Mapping(source = "idCountry", target = "idCountry")
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "latitude", target = "latitude")
-    @Mapping(source = "longitude", target = "longitude")
+//    @Mapping(source = "idCountry", target = "idCountry")
+//    @Mapping(source = "name", target = "name")
+//    @Mapping(source = "latitude", target = "latitude")
+//    @Mapping(source = "longitude", target = "longitude")
     public abstract CityDto cityToCityDto(City city);
 
     @AfterMapping

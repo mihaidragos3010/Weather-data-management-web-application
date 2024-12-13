@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,16 +30,21 @@ public class CityService {
         return cityRepository.findById(id);
     }
 
-    public List<City> getAllCities(){
-        return cityRepository.findAll();
+    public List<CityDto> getAllCities(){
+        return cityRepository.findAll().stream()
+                .map(citiesMapper::cityToCityDto)
+                .collect(Collectors.toList());
     }
 
-    public List<City> getCitiesByIdCountry(Integer idCountry) {
-        return cityRepository.findByIdCountry(idCountry);
+    public List<CityDto> getCitiesByIdCountry(Integer idCountry) {
+        return cityRepository.findByIdCountry(idCountry).stream()
+                .map(citiesMapper::cityToCityDto)
+                .collect(Collectors.toList());
     }
 
-    public void updateCity(City updatedCity){
-        cityRepository.save(updatedCity);
+    public void updateCity(CityDto updatedCity){
+        City city = citiesMapper.cityDtoToCity(updatedCity);
+        cityRepository.save(city);
     }
 
     public void deleteCity(City city){

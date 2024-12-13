@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,15 +35,16 @@ public class TemperatureService {
         return temperatureRepository.findById(id);
     }
 
-    public void updateTemperature(Temperature updatedTemperature){
-        temperatureRepository.save(updatedTemperature);
+    public void updateTemperature(TemperatureDto updatedTemperatureDto){
+        Temperature temperature = temperaturesMapper.temperatureDtoToTemperature(updatedTemperatureDto);
+        temperatureRepository.save(temperature);
     }
 
     public void deleteTemperature(Temperature temperature){
         temperatureRepository.delete(temperature);
     }
 
-    public List<Temperature> getTemperatures(Optional<Double> latitude, Optional<Double> longitude, Optional<Date> fromDate, Optional<Date> untilDate){
+    public List<TemperatureDto> getTemperatures(Optional<Double> latitude, Optional<Double> longitude, Optional<Date> fromDate, Optional<Date> untilDate){
 
         List<City> cities = new ArrayList<>();
         if(latitude.isEmpty() && longitude.isEmpty()){
@@ -80,10 +82,12 @@ public class TemperatureService {
             }
         }
 
-        return temperatures;
+        return temperatures.stream()
+                .map(temperaturesMapper::temperatureToTemperatureDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Temperature> getTemperaturesByCity(Integer idCity, Optional<Date> fromDate, Optional<Date> untilDate){
+    public List<TemperatureDto> getTemperaturesByCity(Integer idCity, Optional<Date> fromDate, Optional<Date> untilDate){
 
         List<Temperature> temperatures = new ArrayList<>();
         if (fromDate.isEmpty() && untilDate.isEmpty()) {
@@ -102,10 +106,12 @@ public class TemperatureService {
             temperatures.addAll(temperatureRepository.findBetweenDates(idCity, fromDate.get(), untilDate.get()));
         }
 
-        return temperatures;
+        return temperatures.stream()
+                .map(temperaturesMapper::temperatureToTemperatureDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Temperature> getTemperaturesByCountry(Integer idCountry, Optional<Date> fromDate, Optional<Date> untilDate){
+    public List<TemperatureDto> getTemperaturesByCountry(Integer idCountry, Optional<Date> fromDate, Optional<Date> untilDate){
 
         List<City> cities = cityRepository.findByIdCountry(idCountry);
 
@@ -128,6 +134,8 @@ public class TemperatureService {
             }
         }
 
-        return temperatures;
+        return temperatures.stream()
+                .map(temperaturesMapper::temperatureToTemperatureDto)
+                .collect(Collectors.toList());
     }
 }

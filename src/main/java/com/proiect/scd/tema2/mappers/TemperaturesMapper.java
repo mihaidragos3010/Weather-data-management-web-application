@@ -23,13 +23,15 @@ public abstract class TemperaturesMapper {
     @Mapping(target = "city", expression = "java(getCityById(temperatureDto))")
     public abstract Temperature temperatureDtoToTemperature(TemperatureDto temperatureDto);
 
-    @Mapping(source = "idCity", target = "idCity")
+    @Mapping(source = "id", target = "id")
+    @Mapping(ignore = true, target = "idCity")
     @Mapping(source = "value", target = "value")
-    public abstract TemperatureDto TemperatureToTemperatureDto(Temperature temperature);
+    @Mapping(source = "timestamp", target = "timestamp")
+    public abstract TemperatureDto temperatureToTemperatureDto(Temperature temperature);
 
     protected Date getFormattedCurrentDate() {
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             String formattedDate = formatter.format(new Date());
             return formatter.parse(formattedDate);
         } catch (Exception e) {

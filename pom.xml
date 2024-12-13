@@ -10,21 +10,22 @@
 	</parent>
 	<groupId>com.proiect.scd</groupId>
 	<artifactId>tema2</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-FINAL</version>
 	<name>Tema2 SCD</name>
 	<description>Weather data management web application</description>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+
 		<!-- Spring Boot Web Starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<!-- Spring Boot Starter Validation for validation annotations -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
 		<!-- Spring Boot JPA Starter -->
@@ -64,7 +65,22 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+		</dependency>
+
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-validation</artifactId>
+				<version>3.4.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<properties>
 		<java.version>17</java.version> <!-- Java version should be 17 -->

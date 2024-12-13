@@ -13,6 +13,7 @@ public interface CountriesMapper {
     @Mapping(source = "longitude", target = "longitude")
     Country countryDtoToCountry(CountryDto countryDto);
 
+    @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "latitude", target = "latitude")
     @Mapping(source = "longitude", target = "longitude")

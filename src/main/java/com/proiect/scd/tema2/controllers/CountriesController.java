@@ -21,7 +21,7 @@ public class CountriesController {
     private final CountryService countryService;
 
     @PostMapping("countries")
-    public ResponseEntity<Map<String, Integer>> addCountry(@RequestBody CountryDto countryDto){
+    public ResponseEntity<?> addCountry(@Valid @RequestBody CountryDto countryDto){
 
         Integer idCountry = countryService.addCountry(countryDto);
 
@@ -31,9 +31,9 @@ public class CountriesController {
     }
 
     @GetMapping("countries")
-    public ResponseEntity<List<Country>> getAllCountries(){
+    public ResponseEntity<?> getAllCountries(){
 
-        List<Country> countries = countryService.getAllCountries();
+        List<CountryDto> countries = countryService.getAllCountries();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -41,7 +41,7 @@ public class CountriesController {
     }
 
     @PutMapping("countries/{id}")
-    public ResponseEntity<?> updateCountry(@PathVariable Integer id, @Valid @RequestBody Country updatedCountry) {
+    public ResponseEntity<?> updateCountry(@PathVariable Integer id, @Valid @RequestBody CountryDto updatedCountry) {
 
         Optional<Country> country = countryService.getCountryById(id);
 

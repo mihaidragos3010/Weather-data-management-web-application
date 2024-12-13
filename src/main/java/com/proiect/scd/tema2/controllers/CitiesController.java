@@ -25,13 +25,7 @@ public class CitiesController {
     private final CountryService countryService;
 
     @PostMapping("cities")
-    public ResponseEntity<Map<String, Integer>> addCity(@RequestBody CityDto cityDto){
-
-        if(cityDto.getIdCountry() == null){
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
-        }
+    public ResponseEntity<?> addCity(@Valid @RequestBody CityDto cityDto){
 
         Optional<Country> country = countryService.getCountryById(cityDto.getIdCountry());
 
@@ -48,9 +42,9 @@ public class CitiesController {
     }
 
     @GetMapping("cities")
-    public ResponseEntity<List<City>> getAllCities(){
+    public ResponseEntity<?> getAllCities(){
 
-        List<City> cities = cityService.getAllCities();
+        List<CityDto> cities = cityService.getAllCities();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -58,22 +52,22 @@ public class CitiesController {
     }
 
     @GetMapping("cities/country/")
-    public ResponseEntity<List<City>> getCitiesWithoutCountry() {
+    public ResponseEntity<?> getCitiesWithoutCountry() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(Collections.emptyList());
     }
 
     @GetMapping("cities/country/{idCountry}")
-    public ResponseEntity<List<City>> getCitiesByCountry(@PathVariable Integer idCountry) {
-        List<City> cities = cityService.getCitiesByIdCountry(idCountry);
+    public ResponseEntity<?> getCitiesByCountry(@PathVariable Integer idCountry) {
+        List<CityDto> cities = cityService.getCitiesByIdCountry(idCountry);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(cities);
     }
 
     @PutMapping("cities/{id}")
-    public ResponseEntity<?> updateCity(@PathVariable Integer id,@Valid @RequestBody City updatedCity) {
+    public ResponseEntity<?> updateCity(@PathVariable Integer id, @Valid @RequestBody CityDto updatedCity) {
 
         /* Check updated city data has same id as PathVariable id */
         if(updatedCity.getId() == null|| !updatedCity.getId().equals(id)){

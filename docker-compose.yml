@@ -12,7 +12,7 @@ services:
       SA_PASSWORD: "SCD_Tema2_2024!"
       MSSQL_PID: "Developer"
     volumes:
-      - tema2SCD_database_volume:/var/opt/mssql
+      - database_volume:/var/opt/mssql
     networks:
       - global-network
 
@@ -29,6 +29,8 @@ services:
       DATABASE_PORT: 1433
       DATABASE_USER: sa
       DATABASE_PASSWORD: SCD_Tema2_2024!
+    volumes:
+      - server-volume:/app
     depends_on:
       - database
     networks:
@@ -37,7 +39,8 @@ services:
 
 # Volume is used to manage data consistency ofter restart
 volumes:
-  tema2SCD_database_volume:
+  database_volume:
+  server-volume:
 
 # Global network use for containers
 networks:
