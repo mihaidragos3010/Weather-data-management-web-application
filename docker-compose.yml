@@ -22,9 +22,9 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "6000:6000"
     environment:
-      SERVER_PORT: 8080
+      SERVER_PORT: 6000
       DATABASE_IP: database
       DATABASE_PORT: 1433
       DATABASE_USER: sa
